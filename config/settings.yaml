@@ -1,0 +1,36 @@
+database:
+  host: localhost
+  port: 5433
+  name: jharkhand_uddp
+  user: uddp
+  password: uddp_local
+
+pipeline:
+  max_retries: 3
+  retry_backoff_seconds: 2
+  # Optional HTTP endpoint. Empty means alerts are written to audit.alert_event and logs/alerts.jsonl.
+  alert_webhook_url: ""
+  state_name: JHARKHAND
+  reference_period: "2021-22"
+
+sources:
+  demographic:
+    source_name: census_2011_district_demographics
+    url: https://raw.githubusercontent.com/nishusharma1608/India-Census-2011-Analysis/master/india-districts-census-2011.csv
+    filename: india-districts-census-2011.csv
+    reference_period: "2011"
+  housing:
+    source_name: census_2011_housing_pca
+    url: https://raw.githubusercontent.com/pigshell/india-census-2011/master/hlpca-total.csv
+    filename: hlpca-total.csv
+    reference_period: "2011"
+  pension:
+    source_name: nsap_pension_beneficiaries_2021_22
+    page_url: https://www.data.gov.in/resource/stateneuts-wise-beneficiaries-under-pension-schemes-national-social-assistance-programme
+    # Direct file link published on the resource page. data.gov.in currently returns 403 to non-browser clients.
+    direct_url: https://www.data.gov.in/files/ogd20/ogdpv2dms/s3fs-public/RS_Session_256_AU_3148_1.csv
+    # Same resource, via the Open Government Data API used by the page preview. Grain is state/UT, not district.
+    api_url: https://api.data.gov.in/resource/4a97c662-ef81-4c84-b0d2-c9607c1059ab
+    api_key: 579b464db66ec23bdd000001cdc3b564546246a772a26393094f5645
+    filename: RS_Session_256_AU_3148_1.csv
+    reference_period: "2021-22"
